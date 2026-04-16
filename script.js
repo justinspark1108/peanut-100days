@@ -846,14 +846,14 @@
           position: fixed;
           bottom: 80px;
           right: 20px;
-          background: linear-gradient(135deg, #1a0a3e, #2d4af1);
+          background: linear-gradient(135deg, #9B8EC4, #5B9BD5);
           color: white;
           padding: 12px 20px;
           border-radius: 16px;
           font-size: 0.85rem;
           font-family: 'Caveat', cursive;
           font-size: 1.1rem;
-          box-shadow: 0 8px 30px rgba(26, 10, 62, 0.3);
+          box-shadow: 0 8px 30px rgba(155, 142, 196, 0.2);
           z-index: 1000;
           animation: cardIn 0.5s ease-out forwards;
           max-width: 220px;

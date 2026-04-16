@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💛 100 Days of You 🩵</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="mode-blue">
+
+  <!-- ✨ Lock Screen -->
+  <div id="lock-screen" class="screen active">
+    <div class="lock-bg"></div>
+    <div class="lock-content">
+      <div class="lock-hearts">
+        <span class="float-heart" style="--delay: 0s; --x: -30px; --dur: 4s;">💛</span>
+        <span class="float-heart" style="--delay: 0.8s; --x: 20px; --dur: 5s;">🩵</span>
+        <span class="float-heart" style="--delay: 1.5s; --x: -10px; --dur: 3.5s;">💛</span>
+        <span class="float-heart" style="--delay: 2.2s; --x: 30px; --dur: 4.5s;">🩵</span>
+        <span class="float-heart" style="--delay: 3s; --x: -20px; --dur: 5.5s;">💛</span>
+      </div>
+      <div class="lock-title">
+        <p class="lock-subtitle">for someone very special</p>
+        <h1>100 Days<br><span>of Loving You</span></h1>
+        <p class="lock-eyebrow">💛 → 🩵</p>
+      </div>
+      <div class="lock-form">
+        <p class="lock-prompt">This is just for you 💛</p>
+        <div class="input-group">
+          <input 
+            type="password" 
+            id="password-input" 
+            placeholder="what's the magic word?" 
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <button id="unlock-btn" class="unlock-btn" aria-label="Unlock">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+          </button>
+        </div>
+        <p id="lock-error" class="lock-error hidden">hmm, that's not it 🤔</p>
+      </div>
+      <p class="lock-footer">made with 💛 for you</p>
+    </div>
+    <!-- Easter egg: tiny peanut hidden in the lock screen -->
+    <span class="easter-egg easter-peanut" id="ee-lock-peanut" title="🥜">.</span>
+  </div>
+
+  <!-- 🎨 Mode Selection Screen -->
+  <div id="mode-select" class="mode-select-screen">
+    <div class="lock-hearts">
+      <span class="float-heart" style="--delay: 0.3s; --x: -40px; --dur: 5s;">💛</span>
+      <span class="float-heart" style="--delay: 1.2s; --x: 25px; --dur: 4s;">🩵</span>
+      <span class="float-heart" style="--delay: 2s; --x: -15px; --dur: 6s;">❤️</span>
+      <span class="float-heart" style="--delay: 3s; --x: 35px; --dur: 4.5s;">💛</span>
+    </div>
+    <h2 class="mode-select-title">how are you feeling?</h2>
+    <p class="mode-select-subtitle">pick a vibe ✨</p>
+    <div class="mode-cards">
+      <div class="mode-card card-blue" data-mode="blue">
+        <div class="mode-card-icon">🩵</div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">Remind Me</div>
+          <div class="mode-card-desc">When you need reminding — romantic, soft, our love story</div>
+        </div>
+        <div class="mode-card-arrow">→</div>
+      </div>
+      <div class="mode-card card-red" data-mode="red">
+        <div class="mode-card-icon">❤️</div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">Make Me Melt</div>
+          <div class="mode-card-desc">When you want to feel desired — hot, passionate, intimate</div>
+        </div>
+        <div class="mode-card-arrow">→</div>
+      </div>
+      <div class="mode-card card-yellow" data-mode="yellow">
+        <div class="mode-card-icon">💛</div>
+        <div class="mode-card-info">
+          <div class="mode-card-name">See the Data</div>
+          <div class="mode-card-desc">Fun stats, progress tracker, your love story in numbers</div>
+        </div>
+        <div class="mode-card-arrow">→</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💌 Main App -->
+  <div id="app" class="screen">
+    <div class="app-bg"></div>
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <span class="header-emoji">💛</span>
+      </div>
+      <h2 class="header-title">100 Days</h2>
+      <div class="header-right">
+        <span class="header-emoji">🩵</span>
+      </div>
+      <!-- Mode switcher dots -->
+      <div class="mode-switcher">
+        <button class="mode-dot dot-blue active" data-mode="blue" aria-label="Blue mode">
+          <div class="mode-dot-inner"></div>
+        </button>
+        <button class="mode-dot dot-red" data-mode="red" aria-label="Red mode">
+          <div class="mode-dot-inner"></div>
+        </button>
+        <button class="mode-dot dot-yellow" data-mode="yellow" aria-label="Yellow mode">
+          <div class="mode-dot-inner"></div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Landing / Home View -->
+    <div id="home-view" class="view active">
+      <div class="hero">
+        <div class="hero-illustration">
+          <div class="jar-container">
+            <div class="jar">
+              <div class="jar-note jar-note-1"></div>
+              <div class="jar-note jar-note-2"></div>
+              <div class="jar-note jar-note-3"></div>
+              <div class="jar-note jar-note-4"></div>
+              <div class="jar-note jar-note-5"></div>
+            </div>
+            <div class="jar-label">100<br>reasons</div>
+          </div>
+        </div>
+        <h2 class="hero-title">
+          <span class="line line-1">100 reasons</span>
+          <span class="line line-2">why i love you</span>
+        </h2>
+        <p class="hero-subtitle">each one is a little piece of my heart 🫶</p>
+        <div class="hero-actions">
+          <button id="shuffle-btn" class="btn btn-primary">
+            <span class="btn-icon">🎲</span>
+            <span class="btn-text">draw from the jar</span>
+          </button>
+          <button id="browse-btn" class="btn btn-secondary">
+            <span class="btn-icon">📖</span>
+            <span class="btn-text">read them all</span>
+          </button>
+        </div>
+        <p class="hero-progress">
+          <span id="notes-read">0</span> / 100 notes discovered
+        </p>
+      </div>
+    </div>
+
+    <!-- Note View -->
+    <div id="note-view" class="view">
+      <div class="note-container">
+        <!-- Back button -->
+        <button id="note-back" class="note-back" aria-label="Go back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          <span>back</span>
+        </button>
+
+        <!-- The Note Card -->
+        <div class="note-card" id="note-card">
+          <div class="note-tape"></div>
+          <div class="note-number" id="note-number">#1</div>
+          <div class="note-body">
+            <p class="note-text" id="note-text"></p>
+          </div>
+          <div class="note-media" id="note-media"></div>
+          <div class="note-footer">
+            <span class="note-footer-emoji">💛</span>
+            <span class="note-footer-label">for you</span>
+            <span class="note-footer-emoji">🩵</span>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="note-nav">
+          <button id="prev-btn" class="nav-btn" aria-label="Previous note">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <span class="nav-counter" id="nav-counter">1 / 100</span>
+          <button id="next-btn" class="nav-btn" aria-label="Next note">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Shuffle from note view -->
+        <button id="shuffle-again" class="btn btn-primary btn-small">
+          <span class="btn-icon">🎲</span>
+          <span class="btn-text">surprise me</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Browse Grid View -->
+    <div id="browse-view" class="view">
+      <div class="browse-header">
+        <button id="browse-back" class="note-back" aria-label="Go back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          <span>back</span>
+        </button>
+        <h3 class="browse-title">all 100 reasons 💛</h3>
+      </div>
+      <div class="browse-grid" id="browse-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Data View (Yellow Mode) -->
+    <div id="data-view" class="data-view">
+      <div class="data-hero">
+        <h2 class="data-hero-title">your love story, in numbers 📊</h2>
+        <p class="data-hero-subtitle">every visit, every note, every moment</p>
+      </div>
+
+      <!-- Stats cards -->
+      <div class="data-stats">
+        <div class="data-stat-card">
+          <div class="data-stat-value" id="data-discovered">0</div>
+          <div class="data-stat-label">notes discovered</div>
+        </div>
+        <div class="data-stat-card">
+          <div class="data-stat-value" id="data-remaining">100</div>
+          <div class="data-stat-label">still to find</div>
+        </div>
+        <div class="data-stat-card">
+          <div class="data-stat-value" id="data-visits">0</div>
+          <div class="data-stat-label">times visited</div>
+        </div>
+        <div class="data-stat-card">
+          <div class="data-stat-value" id="data-streak">0</div>
+          <div class="data-stat-label">day streak 🔥</div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="data-progress-section">
+        <div class="data-progress-label">
+          <span class="data-progress-text">discovery progress</span>
+          <span class="data-progress-count" id="data-progress-text">0%</span>
+        </div>
+        <div class="data-progress-bar">
+          <div class="data-progress-fill" id="data-progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Discovery grid -->
+      <div class="data-grid-section">
+        <h3 class="data-section-title">discovery map 🗺️</h3>
+        <div class="data-discovery-grid" id="data-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Recent discoveries -->
+      <div class="data-recent" id="data-recent-section">
+        <h3 class="data-section-title">recently discovered ✨</h3>
+        <div class="data-recent-list" id="data-recent-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Fun stats -->
+      <div class="data-fun" id="data-fun-section">
+        <h3 class="data-section-title">fun facts 🎉</h3>
+        <div id="data-fun-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Back to notes button -->
+      <button id="data-back-btn" class="btn btn-primary data-back-btn">
+        <span class="btn-icon">💌</span>
+        <span class="btn-text">back to the notes</span>
+      </button>
+    </div>
+
+    <!-- Easter egg: hidden butter somewhere in the app -->
+    <span class="easter-egg easter-butter" id="ee-app-butter" title="🧈">·</span>
+  </div>
+
+  <!-- Transition overlay -->
+  <div id="transition-overlay" class="transition-overlay"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

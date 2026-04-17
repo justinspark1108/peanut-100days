@@ -8,21 +8,21 @@
 
 /* --- Custom Properties --- */
 :root {
-  /* Core palette — soft pastel blue-to-purple */
-  --purple-deep: #9B8EC4;
-  --purple-mid: #B8A9D4;
-  --purple-soft: #CDB8E8;
-  --purple-haze: #D8CCF0;
-  --purple-glow: #E6DFF5;
-  --purple-pale: #F0EBF8;
-  --purple-mist: #F5F0FF;
+  /* Core palette — rich blue-to-purple */
+  --purple-deep: #7B68AE;
+  --purple-mid: #9B8EC4;
+  --purple-soft: #B8A9D4;
+  --purple-haze: #CDB8E8;
+  --purple-glow: #D8CCF0;
+  --purple-pale: #E6DFF5;
+  --purple-mist: #F0EBF8;
 
-  --blue-deep: #5B9BD5;
-  --blue-mid: #7CB9E8;
-  --blue-soft: #A8D1F0;
-  --blue-haze: #C5DFF0;
-  --blue-pale: #DDE9F8;
-  --blue-mist: #EEF4FD;
+  --blue-deep: #4A8CC7;
+  --blue-mid: #5B9BD5;
+  --blue-soft: #7CB9E8;
+  --blue-haze: #A8D1F0;
+  --blue-pale: #C5DFF0;
+  --blue-mist: #DDE9F8;
 
   --yellow-warm: #ffd54f;
   --yellow-accent: #ffb300;
@@ -30,14 +30,14 @@
 
   /* Neutral */
   --white: #ffffff;
-  --off-white: #faf8ff;
+  --off-white: #f5f2ff;
   --cream: #fdf8f0;
-  --gray-light: #b0a8c4;
-  --gray: #7a6f98;
-  --gray-dark: #6B5F8A;
-  --text-primary: #3D3266;
-  --text-secondary: #6B5F8A;
-  --text-muted: #9A8FBA;
+  --gray-light: #8a7fAA;
+  --gray: #6B5F8A;
+  --gray-dark: #5A4F7A;
+  --text-primary: #2D2266;
+  --text-secondary: #5A4F7A;
+  --text-muted: #8A7F9A;
 
   /* Sticky note colors (pastel dreamy) */
   --note-yellow: #fff9c4;
@@ -63,7 +63,7 @@
   --shadow-note: 0 4px 15px rgba(61, 50, 102, 0.07), 0 1px 3px rgba(61, 50, 102, 0.04);
 
   /* Typography */
-  --font-hand: 'Caveat', cursive;
+  --font-hand: 'Patrick Hand', cursive;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing */
@@ -113,29 +113,29 @@
 /* --- 🩵 Blue Mode (default — soft pastel blue-to-purple) --- */
 body.mode-blue {
   --mode-bg: 
-    radial-gradient(ellipse at 20% 80%, rgba(155, 142, 196, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(91, 155, 213, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(216, 204, 240, 0.08) 0%, transparent 70%),
-    linear-gradient(160deg, #EEF4FD 0%, #F0EBF8 50%, #E6DFF5 100%);
-  --mode-gradient-1: rgba(155, 142, 196, 0.15);
-  --mode-gradient-2: rgba(91, 155, 213, 0.12);
-  --mode-gradient-3: rgba(216, 204, 240, 0.08);
-  --mode-accent: #9B8EC4;
-  --mode-accent-alt: #5B9BD5;
-  --mode-btn-gradient: linear-gradient(135deg, #9B8EC4, #5B9BD5);
-  --mode-btn-shadow: rgba(155, 142, 196, 0.25);
-  --mode-border: rgba(155, 142, 196, 0.12);
-  --mode-header-bg: rgba(245, 240, 255, 0.7);
-  --mode-card-bg: rgba(255, 255, 255, 0.65);
-  --mode-nav-bg: rgba(255, 255, 255, 0.65);
-  --mode-text-secondary: #6B5F8A;
-  --mode-text-muted: #9A8FBA;
-  --mode-title-gradient: linear-gradient(135deg, #9B8EC4, #5B9BD5);
-  --mode-lock-gradient: linear-gradient(160deg, #EEF4FD 0%, #F0EBF8 50%, #E6DFF5 100%);
-  --mode-lock-radial1: rgba(155, 142, 196, 0.18);
-  --mode-lock-radial2: rgba(91, 155, 213, 0.15);
-  --mode-lock-radial3: rgba(216, 204, 240, 0.1);
-  --mode-selection-bg: rgba(155, 142, 196, 0.25);
+    radial-gradient(ellipse at 20% 80%, rgba(123, 104, 174, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(74, 140, 199, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(200, 184, 232, 0.1) 0%, transparent 70%),
+    linear-gradient(160deg, #DDE9F8 0%, #E6DFF5 50%, #D8CCF0 100%);
+  --mode-gradient-1: rgba(123, 104, 174, 0.2);
+  --mode-gradient-2: rgba(74, 140, 199, 0.15);
+  --mode-gradient-3: rgba(200, 184, 232, 0.1);
+  --mode-accent: #7B68AE;
+  --mode-accent-alt: #4A8CC7;
+  --mode-btn-gradient: linear-gradient(135deg, #7B68AE, #4A8CC7);
+  --mode-btn-shadow: rgba(123, 104, 174, 0.3);
+  --mode-border: rgba(123, 104, 174, 0.18);
+  --mode-header-bg: rgba(230, 223, 245, 0.75);
+  --mode-card-bg: rgba(255, 255, 255, 0.7);
+  --mode-nav-bg: rgba(255, 255, 255, 0.7);
+  --mode-text-secondary: #5A4F7A;
+  --mode-text-muted: #8A7F9A;
+  --mode-title-gradient: linear-gradient(135deg, #7B68AE, #4A8CC7);
+  --mode-lock-gradient: linear-gradient(160deg, #DDE9F8 0%, #E6DFF5 50%, #D8CCF0 100%);
+  --mode-lock-radial1: rgba(123, 104, 174, 0.22);
+  --mode-lock-radial2: rgba(74, 140, 199, 0.18);
+  --mode-lock-radial3: rgba(200, 184, 232, 0.12);
+  --mode-selection-bg: rgba(123, 104, 174, 0.3);
 }
 
 /* --- ❤️ Red Mode (passionate, warm rose/coral — light & airy) --- */
@@ -222,11 +222,11 @@ body.mode-red .header-title {
 }
 
 body.mode-red .hero-title .line-1 {
-  color: #E8879A;
+  color: #C46880;
 }
 
 body.mode-red .hero-title .line-2 {
-  color: #F0A07A;
+  color: #D88A68;
 }
 
 body.mode-red .btn-primary {
@@ -1545,6 +1545,7 @@ input {
   font-size: clamp(2rem, 8vw, 3rem);
   font-weight: 700;
   line-height: 1.1;
+  font-style: normal;
 }
 
 .line-1 {

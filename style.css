@@ -3,7 +3,7 @@
    Color: Soft Pastel Blue-to-Purple (dreamy, airy)
    Emojis: 💛 (his) & 🩵 (hers)
    
-   Modes: Blue (romantic), Red (passionate), Yellow (data)
+   Modes: Blue (romantic), Red (passionate), Yellow (data), Pink (picture mind)
    ============================================ */
 
 /* --- Custom Properties --- */
@@ -484,6 +484,228 @@ body.mode-yellow :focus-visible {
   outline-color: #ffb300;
 }
 
+/* --- ❤️ Pink Mode (dreamy, nostalgic — rose quartz & indigo) --- */
+body.mode-pink {
+  --mode-bg: 
+    radial-gradient(ellipse at 20% 80%, rgba(199, 125, 175, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(147, 130, 200, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(230, 195, 220, 0.08) 0%, transparent 70%),
+    linear-gradient(160deg, #FFF0F5 0%, #F5EEF8 30%, #F0E6F6 60%, #FFF0F5 100%);
+  --mode-gradient-1: rgba(199, 125, 175, 0.12);
+  --mode-gradient-2: rgba(147, 130, 200, 0.1);
+  --mode-gradient-3: rgba(230, 195, 220, 0.08);
+  --mode-accent: #C77DAF;
+  --mode-accent-alt: #9382C8;
+  --mode-btn-gradient: linear-gradient(135deg, #C77DAF, #9382C8);
+  --mode-btn-shadow: rgba(199, 125, 175, 0.3);
+  --mode-border: rgba(199, 125, 175, 0.15);
+  --mode-header-bg: rgba(255, 240, 245, 0.75);
+  --mode-card-bg: rgba(255, 255, 255, 0.7);
+  --mode-nav-bg: rgba(255, 255, 255, 0.7);
+  --mode-text-secondary: #9A6D88;
+  --mode-text-muted: #B89AAA;
+  --mode-title-gradient: linear-gradient(135deg, #C77DAF, #9382C8);
+  --mode-lock-gradient: linear-gradient(160deg, #FFF0F5 0%, #F5EEF8 30%, #F0E6F6 100%);
+  --mode-lock-radial1: rgba(199, 125, 175, 0.15);
+  --mode-lock-radial2: rgba(147, 130, 200, 0.12);
+  --mode-lock-radial3: rgba(230, 195, 220, 0.1);
+  --mode-selection-bg: rgba(199, 125, 175, 0.25);
+  --text-primary: #4A2D40;
+  --text-secondary: #9A6D88;
+  --text-muted: #B89AAA;
+  --gray-dark: #9A6D88;
+  --off-white: #FFF5F8;
+  --purple-deep: #B86D9C;
+  --purple-mid: #C78DAE;
+  --purple-soft: #D8A8C0;
+  --purple-haze: #E4C0D0;
+  --purple-glow: #EED4E2;
+  --purple-pale: #F5E6EE;
+  --purple-mist: #FBF0F5;
+  --blue-deep: #9382C8;
+  --blue-mid: #A898D0;
+  --blue-soft: #C0B4DC;
+  --blue-haze: #D4CCE8;
+  --shadow-sm: 0 1px 3px rgba(74, 45, 64, 0.06);
+  --shadow-md: 0 4px 12px rgba(74, 45, 64, 0.08);
+  --shadow-lg: 0 8px 30px rgba(74, 45, 64, 0.1);
+  --shadow-xl: 0 16px 50px rgba(74, 45, 64, 0.12);
+  --shadow-note: 0 4px 15px rgba(74, 45, 64, 0.07), 0 1px 3px rgba(74, 45, 64, 0.04);
+  /* Pink mode sticky note colors — warm vintage */
+  --note-yellow: #FFF0E0;
+  --note-yellow-dark: #FFE0C0;
+  --note-blue: #E8D8F0;
+  --note-blue-dark: #D8C4E4;
+  --note-purple: #F0D0E0;
+  --note-purple-dark: #E4B8D0;
+  --note-pink: #FFD8E8;
+  --note-pink-dark: #FFC0D8;
+  --note-lavender: #E0D0F0;
+  --note-lavender-dark: #D0B8E8;
+  --note-mint: #E0E8F0;
+  --note-mint-dark: #C8D8E8;
+  --note-peach: #FFE0D0;
+  --note-peach-dark: #FFC8B4;
+  /* Soft, nostalgic animation speed */
+  --duration-slow: 750ms;
+  --duration-normal: 400ms;
+}
+
+body.mode-pink .app-bg {
+  background: var(--mode-bg);
+}
+
+body.mode-pink .app-header {
+  background: var(--mode-header-bg);
+  border-bottom: 1px solid var(--mode-border);
+}
+
+body.mode-pink .header-title {
+  background: var(--mode-title-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.mode-pink .btn-primary {
+  background: var(--mode-btn-gradient);
+  box-shadow: 0 4px 20px var(--mode-btn-shadow);
+}
+
+body.mode-pink .btn-secondary {
+  background: var(--mode-card-bg);
+  border-color: var(--mode-border);
+  color: #C77DAF;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.mode-pink .hero-title .line-1 {
+  color: #C77DAF;
+}
+
+body.mode-pink .hero-title .line-2 {
+  color: #9382C8;
+}
+
+body.mode-pink .hero-subtitle {
+  color: #9A6D88;
+}
+
+body.mode-pink .hero-progress {
+  color: #B89AAA;
+}
+
+body.mode-pink .browse-title {
+  color: #C77DAF;
+}
+
+body.mode-pink .note-back:hover {
+  color: #C77DAF;
+  background: rgba(199, 125, 175, 0.1);
+}
+
+body.mode-pink .nav-btn {
+  background: var(--mode-nav-bg);
+  border-color: var(--mode-border);
+  color: #C77DAF;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.mode-pink .nav-btn:hover {
+  background: rgba(255, 240, 245, 0.9);
+  border-color: rgba(199, 125, 175, 0.3);
+}
+
+body.mode-pink .browse-item .item-number {
+  color: rgba(74, 45, 64, 0.4);
+}
+
+body.mode-pink .browse-item .item-preview {
+  color: rgba(74, 45, 64, 0.6);
+}
+
+body.mode-pink .view::-webkit-scrollbar-thumb {
+  background: rgba(199, 125, 175, 0.2);
+}
+
+body.mode-pink .input-group {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(199, 125, 175, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+body.mode-pink .input-group input {
+  color: #4A2D40;
+}
+
+body.mode-pink .input-group input::placeholder {
+  color: #B89AAA;
+}
+
+body.mode-pink .input-group:focus-within {
+  border-color: #C77DAF;
+  box-shadow: 0 0 0 3px rgba(199, 125, 175, 0.15), var(--shadow-md);
+}
+
+body.mode-pink .note-number {
+  color: #9A6D88;
+}
+
+body.mode-pink .note-footer-label {
+  color: #9A6D88;
+}
+
+body.mode-pink .note-card {
+  color: var(--text-primary);
+}
+
+body.mode-pink .lock-subtitle {
+  color: #9A6D88;
+}
+
+body.mode-pink .lock-prompt {
+  color: #9A6D88;
+}
+
+body.mode-pink .lock-error {
+  color: #C77DAF;
+}
+
+body.mode-pink .lock-footer {
+  color: #B89AAA;
+}
+
+body.mode-pink .lock-title h1 {
+  background: linear-gradient(135deg, #C77DAF, #9382C8);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.mode-pink .lock-title h1 span {
+  background: linear-gradient(135deg, #9382C8, #C77DAF);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.mode-pink .lock-eyebrow {
+  color: #B89AAA;
+}
+
+body.mode-pink .unlock-btn {
+  background: linear-gradient(135deg, #C77DAF, #9382C8);
+}
+
+body.mode-pink ::selection {
+  background: rgba(199, 125, 175, 0.25);
+  color: #4A2D40;
+}
+
+body.mode-pink :focus-visible {
+  outline-color: #C77DAF;
+}
+
 /* ============================================
    MODE SELECT SCREEN
    ============================================ */
@@ -601,6 +823,21 @@ body.mode-yellow :focus-visible {
   transform: translateY(-2px);
 }
 
+/* Pink mode card */
+.mode-card.card-pink {
+  background: linear-gradient(135deg, rgba(199, 125, 175, 0.1), rgba(147, 130, 200, 0.08));
+  border-color: rgba(199, 125, 175, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.mode-card.card-pink:hover {
+  background: linear-gradient(135deg, rgba(199, 125, 175, 0.18), rgba(147, 130, 200, 0.12));
+  border-color: rgba(199, 125, 175, 0.3);
+  box-shadow: 0 8px 30px rgba(199, 125, 175, 0.15);
+  transform: translateY(-2px);
+}
+
 .mode-card-icon {
   font-size: 2rem;
   flex-shrink: 0;
@@ -622,6 +859,10 @@ body.mode-yellow :focus-visible {
 
 .card-yellow .mode-card-icon {
   background: rgba(255, 179, 0, 0.1);
+}
+
+.card-pink .mode-card-icon {
+  background: rgba(199, 125, 175, 0.1);
 }
 
 .mode-card-info {
@@ -647,6 +888,10 @@ body.mode-yellow :focus-visible {
 
 .card-yellow .mode-card-name {
   color: #f57f17;
+}
+
+.card-pink .mode-card-name {
+  color: #C77DAF;
 }
 
 .mode-card-desc {
@@ -728,6 +973,10 @@ body.mode-yellow :focus-visible {
   background: #ffb300;
 }
 
+.dot-pink .mode-dot-inner {
+  background: #C77DAF;
+}
+
 .mode-dot.active .mode-dot-inner {
   width: 12px;
   height: 12px;
@@ -743,6 +992,10 @@ body.mode-yellow :focus-visible {
 
 .mode-dot.active.dot-yellow .mode-dot-inner {
   background: linear-gradient(135deg, #f57f17, #ffb300);
+}
+
+.mode-dot.active.dot-pink .mode-dot-inner {
+  background: linear-gradient(135deg, #C77DAF, #9382C8);
 }
 
 /* ============================================

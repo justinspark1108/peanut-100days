@@ -977,6 +977,20 @@ body.mode-pink :focus-visible {
   background: #C77DAF;
 }
 
+/* Mode-colored data grid dots */
+.data-grid-dot.discovered.dot-mode-blue {
+  background: linear-gradient(135deg, #7B68AE, #5B9BD5);
+}
+.data-grid-dot.discovered.dot-mode-red {
+  background: linear-gradient(135deg, #D4788C, #F0A07A);
+}
+.data-grid-dot.discovered.dot-mode-yellow {
+  background: linear-gradient(135deg, #f57f17, #ffb300);
+}
+.data-grid-dot.discovered.dot-mode-pink {
+  background: linear-gradient(135deg, #C77DAF, #8B6BAE);
+}
+
 .mode-dot.active .mode-dot-inner {
   width: 12px;
   height: 12px;

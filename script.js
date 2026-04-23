@@ -23,8 +23,8 @@
   for (let i = 59; i <= 78; i++) {
     PINK_MEDIA_MAP[i] = i - 58; // note 59 → media-1, note 60 → media-2, etc.
   }
-  const PINK_PHOTO_MEDIA = [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20]; // media numbers that are photos (3 and 16 TBD)
-  const PINK_VIDEO_MEDIA = [2, 17]; // media numbers that are videos
+  const PINK_PHOTO_MEDIA = [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20]; // media numbers that are photos
+  const PINK_VIDEO_MEDIA = [2, 3, 16, 17]; // media numbers that are videos
   const PHOTO_NOTES = Object.keys(PINK_MEDIA_MAP).map(Number).filter(n => PINK_PHOTO_MEDIA.includes(PINK_MEDIA_MAP[n]));
   const VIDEO_NOTES = Object.keys(PINK_MEDIA_MAP).map(Number).filter(n => PINK_VIDEO_MEDIA.includes(PINK_MEDIA_MAP[n]));
 

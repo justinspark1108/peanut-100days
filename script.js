@@ -16,7 +16,7 @@
 
   // ─── Configuration ───
   const PASSWORD = 'nootnoot';
-  const TOTAL_NOTES = 101;
+  const TOTAL_NOTES = 100;
   // Pink mode media mapping: global note 59→media1, 60→media2, ... 78→media20
   // media_number = globalNoteNumber - 58
   const PINK_MEDIA_MAP = {};

@@ -16,9 +16,17 @@
 
   // ─── Configuration ───
   const PASSWORD = 'nootnoot';
-  const TOTAL_NOTES = 100;
-  const PHOTO_NOTES = [3, 7, 12, 18, 23, 29, 34, 41, 47, 53, 58, 64, 71, 78, 85];
-  const VIDEO_NOTES = [10, 27, 45, 62, 90];
+  const TOTAL_NOTES = 101;
+  // Pink mode media mapping: global note 59→media1, 60→media2, ... 78→media20
+  // media_number = globalNoteNumber - 58
+  const PINK_MEDIA_MAP = {};
+  for (let i = 59; i <= 78; i++) {
+    PINK_MEDIA_MAP[i] = i - 58; // note 59 → media-1, note 60 → media-2, etc.
+  }
+  const PINK_PHOTO_MEDIA = [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20]; // media numbers that are photos (3 and 16 TBD)
+  const PINK_VIDEO_MEDIA = [2, 17]; // media numbers that are videos
+  const PHOTO_NOTES = Object.keys(PINK_MEDIA_MAP).map(Number).filter(n => PINK_PHOTO_MEDIA.includes(PINK_MEDIA_MAP[n]));
+  const VIDEO_NOTES = Object.keys(PINK_MEDIA_MAP).map(Number).filter(n => PINK_VIDEO_MEDIA.includes(PINK_MEDIA_MAP[n]));
 
   const NOTE_COLORS = [
     'color-yellow', 'color-blue', 'color-purple', 'color-pink',
@@ -122,22 +130,27 @@
     { text: "How you're a good girl and try to take it even when it's overwhelming", mode: "red" },
     { text: "Just thinking about putting my hands all over you can get me going", mode: "red" },
     { text: "How your ass is already getting bigger from working out a couple weeks…HUH 😍", mode: "red" },
-    // 59-73: placeholders until Justin provides more
-    { text: "Every curve of your body is my favorite 🔥", mode: "red" },
-    { text: "The way your skin glows after we… 🌟", mode: "red" },
-    { text: "Your lips are my favorite addiction 😈", mode: "red" },
-    { text: "The way you bite your bottom lip 😏", mode: "red" },
-    { text: "How you look first thing in the morning — messy hair, no makeup, perfect 😍", mode: "red" },
-    { text: "Your thighs… don't get me started 🫠", mode: "red" },
-    { text: "The way your breathing changes when I'm close 🔥", mode: "red" },
-    { text: "How you fit perfectly against me 🤤", mode: "red" },
-    { text: "The sounds you make when you try to be quiet 😏", mode: "red" },
-    { text: "Your voice when you're whispering in my ear 🥵", mode: "red" },
-    { text: "The way you pull me closer without meaning to 💕", mode: "red" },
-    { text: "How you look up at me with those eyes 👀", mode: "red" },
-    { text: "Your neck is dangerously attractive 😈", mode: "red" },
-    { text: "The way you react when I tease you 🔥", mode: "red" },
-    { text: "How your body knows exactly what it wants 😏", mode: "red" },
+    // ── PINK (picture mind) — Notes 59-78: Justin's photo/video notes ──
+    { text: "You send things like this when I miss you", mode: "pink" },
+    { text: "You will always be my setter! (We'll get the crazy quick eventually)", mode: "pink" },
+    { text: "You love solving things together with me :)", mode: "pink" },
+    { text: "You roll with the punches even when sick on your bday", mode: "pink" },
+    { text: "Kismet and delulu for the best first date of all time", mode: "pink" },
+    { text: "We are so lucky to have each other and together: look at this view on our first date!", mode: "pink" },
+    { text: "I love that this is our idea of a great date 🍄", mode: "pink" },
+    { text: "riding the subway with you is such an nyc cliche, but I hope we gross people out. They are just jealous", mode: "pink" },
+    { text: "This was only 100 ish days ago, but it feels like I have known you forever already", mode: "pink" },
+    { text: "I lowkey really like that you were shown off to my friends while I was passed out haha. This is the last time we do long distance though", mode: "pink" },
+    { text: "Are we degenerates???", mode: "pink" },
+    { text: "I love this simple date is all we really want tooooo", mode: "pink" },
+    { text: "I love that you are a donut girly", mode: "pink" },
+    { text: "Look at you so prettyyyy. This is phone wallpaper material right here LOL is that ok", mode: "pink" },
+    { text: "I love that when we see stories about love, it just reminds us of us LOL honestly we are probably better", mode: "pink" },
+    { text: "YOU ARE A SNOWBOARDER", mode: "pink" },
+    { text: "Sneak peek to how much fun we will have when we go on trips together <3", mode: "pink" },
+    { text: "Ok in n out > shake shack. I love you", mode: "pink" },
+    { text: "I like that our drunk personalities are also compatible LOL I love when you get all silly", mode: "pink" },
+    { text: "Can you believe this is us in a disagreement haha. I love how we handle conflict even in public circumstances. This ironically turned into a core memory for us <3", mode: "pink" },
 
     // ── YELLOW (data/facts) — Notes 74-94: Justin's real notes ──
     { text: "Our MBTIs are literally ideal matches and it's the only personality test we give any credence to.", mode: "yellow" },
@@ -161,13 +174,6 @@
     { text: "We have an epic friendship, a feeling of home, and a determination to be good at marriage (and our relationship) source: Tim Urban", mode: "yellow" },
     { text: "I always look forward to our 'Forgettable Wednesdays' and 'day four of vacation #56' together.", mode: "yellow" },
     { text: "It is a huge positive sign to me that I am so comfortable with you right from the get go and acting cute/weird. This is a big data point. It literally took me a year or so to get anywhere close to this before :o", mode: "yellow" },
-    // 95-100: yellow placeholders
-    { text: "Couples who laugh together report higher relationship satisfaction. We've got that covered 😂", mode: "yellow" },
-    { text: "Studies show that couples who exercise together stay together. Wer are literally living proof 💪", mode: "yellow" },
-    { text: "The average person falls in love 7 times before getting married. I'm done at 1 — you. 🩵", mode: "yellow" },
-    { text: "Psychology says it takes 1/5th of a second to fall in love. It took me longer because I was in denial 😂", mode: "yellow" },
-    { text: "Couples who have similar music tastes tend to be more compatible. Our karaoke session proved that 🎤", mode: "yellow" },
-    { text: "The data is in: we're a statistical anomaly and I wouldn't have it any other way 📊💛", mode: "yellow" },
   ];
 
   // ─── State ───
@@ -622,10 +628,14 @@
 
     // Handle media
     els.noteMedia.innerHTML = '';
-    if (PHOTO_NOTES.includes(globalIndex + 1)) {
-      els.noteMedia.innerHTML = `<img src="assets/photos/note-${globalIndex + 1}.jpg" alt="A special memory" loading="lazy" onerror="this.parentElement.style.display='none'">`;
-    } else if (VIDEO_NOTES.includes(globalIndex + 1)) {
-      els.noteMedia.innerHTML = `<video controls preload="none" onerror="this.parentElement.style.display='none'"><source src="assets/videos/note-${globalIndex + 1}.mp4" type="video/mp4">Your browser does not support video.</video>`;
+    const noteNum = globalIndex + 1;
+    if (PINK_MEDIA_MAP[noteNum]) {
+      const mediaNum = PINK_MEDIA_MAP[noteNum];
+      if (PINK_VIDEO_MEDIA.includes(mediaNum)) {
+        els.noteMedia.innerHTML = `<video controls preload="none" onerror="this.parentElement.style.display='none'"><source src="assets/videos/media-${mediaNum}.mp4" type="video/mp4">Your browser does not support video.</video>`;
+      } else {
+        els.noteMedia.innerHTML = `<img src="assets/photos/media-${mediaNum}.jpg" alt="A special memory" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+      }
     }
 
     if (animate) {

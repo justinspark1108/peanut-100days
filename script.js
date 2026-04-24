@@ -440,10 +440,15 @@
         applyMode(state.currentMode, false);
       } else {
         showView('home');
-        updateGlobalProgress();
       }
       updateGlobalProgress();
-      setTimeout(() => els.transition.classList.remove('active'), 100);
+
+      // Dismiss overlay with enough delay for all view transitions to settle
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          els.transition.classList.remove('active');
+        });
+      });
     }, 400);
   }
 

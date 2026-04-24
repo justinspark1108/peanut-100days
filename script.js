@@ -17,11 +17,11 @@
   // ─── Configuration ───
   const PASSWORD = 'nootnoot';
   const TOTAL_NOTES = 100;
-  // Pink mode media mapping: global note 59→media1, 60→media2, ... 78→media20
-  // media_number = globalNoteNumber - 58
+  // Pink mode media mapping: global note 60→media1, 61→media2, ... 79→media20
+  // media_number = globalNoteNumber - 59
   const PINK_MEDIA_MAP = {};
-  for (let i = 59; i <= 78; i++) {
-    PINK_MEDIA_MAP[i] = i - 58; // note 59 → media-1, note 60 → media-2, etc.
+  for (let i = 60; i <= 79; i++) {
+    PINK_MEDIA_MAP[i] = i - 59; // note 60 → media-1, note 61 → media-2, etc.
   }
   const PINK_PHOTO_MEDIA = [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20]; // media numbers that are photos
   const PINK_VIDEO_MEDIA = [2, 3, 16, 17]; // media numbers that are videos
@@ -229,21 +229,19 @@
 
   const els = {
     lockScreen: $('#lock-screen'),
-    modeSelect: $('#mode-select'),
     app: $('#app'),
     passwordInput: $('#password-input'),
     unlockBtn: $('#unlock-btn'),
     lockError: $('#lock-error'),
     homeView: $('#home-view'),
+    modeHomeView: $('#mode-home-view'),
     noteView: $('#note-view'),
     browseView: $('#browse-view'),
-    dataView: $('#data-view'),
     noteCard: $('#note-card'),
     noteNumber: $('#note-number'),
     noteText: $('#note-text'),
     noteMedia: $('#note-media'),
     navCounter: $('#nav-counter'),
-    notesRead: $('#notes-read'),
     browseGrid: $('#browse-grid'),
     browseTitle: $('.browse-title'),
     shuffleBtn: $('#shuffle-btn'),
@@ -256,27 +254,18 @@
     transition: $('#transition-overlay'),
     eeLockPeanut: $('#ee-lock-peanut'),
     eeAppButter: $('#ee-app-butter'),
-    // Hero elements
-    heroLine1: $('.hero-title .line-1'),
-    heroLine2: $('.hero-title .line-2'),
-    heroSubtitle: $('.hero-subtitle'),
-    heroProgress: $('.hero-progress'),
-    jarLabel: $('.jar-label'),
-    // Data view elements
-    dataDiscovered: $('#data-discovered'),
-    dataRemaining: $('#data-remaining'),
-    dataVisits: $('#data-visits'),
-    dataStreak: $('#data-streak'),
-    dataProgressText: $('#data-progress-text'),
-    dataProgressFill: $('#data-progress-fill'),
-    dataGrid: $('#data-grid'),
-    dataRecentList: $('#data-recent-list'),
-    dataRecentSection: $('#data-recent-section'),
-    dataFunList: $('#data-fun-list'),
-    dataBackBtn: $('#data-back-btn'),
-    // Mode switcher
-    modeDots: $$('.mode-dot'),
-    modeCards: $$('.mode-card'),
+    // Home / landing elements
+    homeBtn: $('#home-btn'),
+    globalShuffleBtn: $('#global-shuffle-btn'),
+    globalProgress: $('#global-progress'),
+    homeCards: $$('.home-card'),
+    homeCardDiscovered: $$('.home-card-discovered'),
+    // Mode hero elements
+    heroLine1: $('#mode-hero-line1'),
+    heroLine2: $('#mode-hero-line2'),
+    heroSubtitle: $('#mode-hero-subtitle'),
+    modeHeroProgress: $('#mode-hero-progress'),
+    // Data view removed — fun stats are now part of home landing
   };
 
   // ─── localStorage helpers ───
@@ -445,15 +434,16 @@
       
       trackVisit();
       
+      // Always go to the app's home/landing view (category cards)
+      els.app.classList.add('active');
       if (state.hasSelectedModeBefore && state.currentMode) {
         applyMode(state.currentMode, false);
-        els.app.classList.add('active');
-        updateProgress();
-        setTimeout(() => els.transition.classList.remove('active'), 100);
       } else {
-        els.modeSelect.classList.add('active');
-        setTimeout(() => els.transition.classList.remove('active'), 100);
+        showView('home');
+        updateGlobalProgress();
       }
+      updateGlobalProgress();
+      setTimeout(() => els.transition.classList.remove('active'), 100);
     }, 400);
   }
 
@@ -464,66 +454,16 @@
     state.currentNoteIndex = -1;
     saveState();
 
-    els.transition.classList.add('active');
-    setTimeout(() => {
-      els.modeSelect.classList.remove('active');
-      applyMode(mode, true);
-      els.app.classList.add('active');
-      updateProgress();
-      setTimeout(() => els.transition.classList.remove('active'), 100);
-    }, 400);
+    applyMode(mode, true);
   }
 
-  function applyMode(mode, showDataView) {
+  function applyMode(mode) {
     document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
     document.body.classList.add(`mode-${mode}`);
 
-    els.modeDots.forEach(dot => {
-      dot.classList.toggle('active', dot.dataset.mode === mode);
-    });
-
     updateHeroText(mode);
-
-    if (mode === 'yellow' && showDataView !== false) {
-      showView('data');
-    } else {
-      showView('home');
-    }
-  }
-
-  function switchMode(mode) {
-    if (mode === state.currentMode) return;
-
-    state.currentMode = mode;
-    state.currentNoteIndex = -1;
-    saveState();
-
-    document.body.classList.add('mode-transitioning');
-    
-    setTimeout(() => {
-      document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
-      document.body.classList.add(`mode-${mode}`);
-
-      els.modeDots.forEach(dot => {
-        dot.classList.toggle('active', dot.dataset.mode === mode);
-      });
-
-      updateHeroText(mode);
-
-      if (mode === 'yellow') {
-        showView('data');
-      } else {
-        if (state.view === 'data') {
-          showView('home');
-        }
-      }
-
-      updateProgress();
-
-      setTimeout(() => {
-        document.body.classList.remove('mode-transitioning');
-      }, 50);
-    }, 150);
+    showView('modeHome');
+    updateGlobalProgress();
   }
 
   function updateHeroText(mode) {
@@ -533,11 +473,12 @@
     if (els.heroLine1) els.heroLine1.textContent = config.title1;
     if (els.heroLine2) els.heroLine2.textContent = config.title2;
     if (els.heroSubtitle) els.heroSubtitle.textContent = config.subtitle;
-    if (els.jarLabel) els.jarLabel.innerHTML = config.jarLabel;
 
+    // Update per-mode progress in mode home view
     const count = getModeNoteCount(mode);
-    if (els.heroProgress) {
-      els.heroProgress.innerHTML = `<span id="notes-read">${getCurrentDiscoveries().size}</span> / ${count} notes discovered`;
+    const discovered = getCurrentDiscoveries();
+    if (els.modeHeroProgress) {
+      els.modeHeroProgress.textContent = `${discovered.size} / ${count} notes discovered`;
     }
   }
 
@@ -545,13 +486,15 @@
   function showView(viewName) {
     state.view = viewName;
     
-    const views = [els.homeView, els.noteView, els.browseView];
+    const views = [els.homeView, els.modeHomeView, els.noteView, els.browseView];
     views.forEach(v => v.classList.remove('active'));
-    els.dataView.classList.remove('active');
 
     switch (viewName) {
       case 'home':
         els.homeView.classList.add('active');
+        break;
+      case 'modeHome':
+        els.modeHomeView.classList.add('active');
         break;
       case 'note':
         els.noteView.classList.add('active');
@@ -559,10 +502,6 @@
       case 'browse':
         els.browseView.classList.add('active');
         buildBrowseGrid();
-        break;
-      case 'data':
-        els.dataView.classList.add('active');
-        buildDataView();
         break;
     }
   }
@@ -779,175 +718,6 @@
     });
   }
 
-  // ─── Data View ───
-  function buildDataView() {
-    // Data view shows stats across ALL modes combined
-    let totalDiscovered = 0;
-    for (const mode of ['blue', 'red', 'yellow', 'pink']) {
-      totalDiscovered += state.discoveredNotes[mode].size;
-    }
-    const remaining = TOTAL_NOTES - totalDiscovered;
-    const pct = Math.round((totalDiscovered / TOTAL_NOTES) * 100);
-    const streak = calculateStreak();
-    const totalTime = updateTimeSpent();
-
-    els.dataDiscovered.textContent = totalDiscovered;
-    els.dataRemaining.textContent = remaining;
-    els.dataVisits.textContent = state.visitCount;
-    els.dataStreak.textContent = streak;
-
-    els.dataProgressText.textContent = `${pct}%`;
-    setTimeout(() => {
-      els.dataProgressFill.style.width = `${pct}%`;
-    }, 100);
-
-    // Build discovery grid — show all 100 notes, colored by mode
-    els.dataGrid.innerHTML = '';
-    for (let i = 0; i < TOTAL_NOTES; i++) {
-      const dot = document.createElement('div');
-      const noteMode = allNotes[i] ? allNotes[i].mode : 'blue';
-      const discovered = state.discoveredNotes[noteMode] && state.discoveredNotes[noteMode].has(i);
-      dot.className = `data-grid-dot ${discovered ? 'discovered' : 'undiscovered'}`;
-      if (discovered) {
-        dot.classList.add(`dot-mode-${noteMode}`);
-      }
-      dot.title = discovered ? `#${i + 1}: ${allNotes[i].text}` : `#${i + 1}: ???`;
-      dot.addEventListener('click', () => {
-        if (discovered) {
-          state.currentMode = noteMode;
-          document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
-          document.body.classList.add(`mode-${noteMode}`);
-          els.modeDots.forEach(d => d.classList.toggle('active', d.dataset.mode === noteMode));
-          // Find the filtered index for this global index
-          const filteredIndices = getFilteredIndices(noteMode);
-          const filteredIndex = filteredIndices.indexOf(i);
-          if (filteredIndex >= 0) showNote(filteredIndex, true);
-        }
-      });
-      els.dataGrid.appendChild(dot);
-    }
-
-    // Recent discoveries
-    const recent = state.recentDiscoveries.slice(-5).reverse();
-    if (recent.length > 0) {
-      els.dataRecentSection.style.display = 'block';
-      els.dataRecentList.innerHTML = '';
-      recent.forEach(item => {
-        const note = allNotes[item.globalIndex];
-        if (!note) return;
-        const el = document.createElement('div');
-        el.className = 'data-recent-item';
-        el.innerHTML = `
-          <span class="data-recent-num">#${item.globalIndex + 1}</span>
-          <span class="data-recent-text">${note.text}</span>
-        `;
-        el.addEventListener('click', () => {
-          const targetMode = item.mode || state.currentMode;
-          state.currentMode = targetMode;
-          document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
-          document.body.classList.add(`mode-${targetMode}`);
-          els.modeDots.forEach(d => d.classList.toggle('active', d.dataset.mode === targetMode));
-          const filteredIndices = getFilteredIndices(targetMode);
-          const filteredIndex = filteredIndices.indexOf(item.globalIndex);
-          if (filteredIndex >= 0) showNote(filteredIndex, true);
-        });
-        els.dataRecentList.appendChild(el);
-      });
-    } else {
-      els.dataRecentSection.style.display = 'none';
-    }
-
-    // Fun stats
-    const funFacts = [];
-    
-    funFacts.push({
-      emoji: '⏰',
-      text: `You've spent <strong>${formatTime(totalTime)}</strong> reading love notes`
-    });
-
-    const peakHour = getMostVisitedHour();
-    if (peakHour) {
-      funFacts.push({
-        emoji: '🌙',
-        text: `You usually visit around <strong>${peakHour}</strong>`
-      });
-    }
-
-    funFacts.push({
-      emoji: '📅',
-      text: `You've visited on <strong>${state.visitDates.length}</strong> different days`
-    });
-
-    if (state.visitDates.length > 0) {
-      const first = state.visitDates[0];
-      const d = new Date(first);
-      const formatted = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      funFacts.push({
-        emoji: '🌟',
-        text: `Your first visit was on <strong>${formatted}</strong>`
-      });
-    }
-
-    // Per-mode breakdown
-    const modeEmojis = { blue: '🩵', red: '❤️', yellow: '💛', pink: '💗' };
-    const modeLabels = { blue: 'romantic', red: 'passionate', yellow: 'data', pink: 'picture mind' };
-    for (const mode of ['blue', 'red', 'yellow', 'pink']) {
-      const modeCount = getModeNoteCount(mode);
-      const discovered = state.discoveredNotes[mode].size;
-      if (modeCount > 0) {
-        funFacts.push({
-          emoji: modeEmojis[mode],
-          text: `<strong>${discovered}/${modeCount}</strong> ${modeLabels[mode]} notes discovered`
-        });
-      }
-    }
-
-    const mediaNotes = PHOTO_NOTES.length + VIDEO_NOTES.length;
-    const discoveredMedia = [...PHOTO_NOTES, ...VIDEO_NOTES].filter(n => {
-      const note = allNotes[n - 1];
-      return note && state.discoveredNotes[note.mode] && state.discoveredNotes[note.mode].has(n - 1);
-    }).length;
-    if (discoveredMedia > 0) {
-      funFacts.push({
-        emoji: '📷',
-        text: `You've unlocked <strong>${discoveredMedia}/${mediaNotes}</strong> special media notes`
-      });
-    }
-
-    if (pct === 100) {
-      funFacts.push({
-        emoji: '🏆',
-        text: `You've found every single note — <strong>100%</strong> complete!`
-      });
-    }
-
-    els.dataFunList.innerHTML = '';
-    funFacts.forEach(fact => {
-      const el = document.createElement('div');
-      el.className = 'data-fun-item';
-      el.innerHTML = `
-        <span class="data-fun-emoji">${fact.emoji}</span>
-        <span class="data-fun-text">${fact.text}</span>
-      `;
-      els.dataFunList.appendChild(el);
-    });
-  }
-
-  // ─── Progress ───
-  function updateProgress() {
-    const discoveries = getCurrentDiscoveries();
-    const count = getModeNoteCount(state.currentMode);
-    const notesReadEl = document.getElementById('notes-read');
-    if (notesReadEl) {
-      notesReadEl.textContent = discoveries.size;
-    }
-    // Update the full progress text
-    if (els.heroProgress) {
-      const config = modeConfig[state.currentMode];
-      els.heroProgress.innerHTML = `<span id="notes-read">${discoveries.size}</span> / ${count} notes discovered`;
-    }
-  }
-
   // ─── Sequential Navigation ───
   function prevNote() {
     if (state.currentNoteIndex > 0) {
@@ -1113,35 +883,36 @@
 
   // ─── Event Listeners ───
   function initEvents() {
-    els.modeCards.forEach(card => {
+    // Home card clicks → enter a mode
+    els.homeCards.forEach(card => {
       card.addEventListener('click', () => {
         selectMode(card.dataset.mode);
       });
     });
 
-    els.modeDots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        switchMode(dot.dataset.mode);
-      });
-    });
+    // Home button → back to categories
+    els.homeBtn.addEventListener('click', goHome);
 
+    // Global shuffle from landing
+    els.globalShuffleBtn.addEventListener('click', globalShuffle);
+
+    // Per-mode shuffle (used within a mode's home view)
     els.shuffleBtn.addEventListener('click', shuffleNote);
     els.browseBtn.addEventListener('click', () => showView('browse'));
     els.shuffleAgain.addEventListener('click', shuffleNote);
-    els.noteBack.addEventListener('click', () => showView('home'));
-    els.browseBack.addEventListener('click', () => showView('home'));
+
+    // Navigation
+    els.noteBack.addEventListener('click', () => showView('modeHome'));
+    els.browseBack.addEventListener('click', () => showView('modeHome'));
     els.prevBtn.addEventListener('click', prevNote);
     els.nextBtn.addEventListener('click', nextNote);
 
-    els.dataBackBtn.addEventListener('click', () => {
-      switchMode('blue');
-    });
-
     document.addEventListener('keydown', (e) => {
-      if (state.view !== 'note') return;
-      if (e.key === 'ArrowLeft') prevNote();
-      if (e.key === 'ArrowRight') nextNote();
-      if (e.key === 'Escape') showView('home');
+      if (state.view === 'note') {
+        if (e.key === 'ArrowLeft') prevNote();
+        if (e.key === 'ArrowRight') nextNote();
+        if (e.key === 'Escape') showView('modeHome');
+      }
     });
 
     setInterval(() => {

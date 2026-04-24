@@ -430,25 +430,29 @@
   function unlock() {
     els.transition.classList.add('active');
     setTimeout(() => {
-      els.lockScreen.classList.remove('active');
-      
-      trackVisit();
-      
-      // Always go to the app's home/landing view (category cards)
-      els.app.classList.add('active');
-      if (state.hasSelectedModeBefore && state.currentMode) {
-        applyMode(state.currentMode, false);
-      } else {
-        showView('home');
-      }
-      updateGlobalProgress();
+      try {
+        els.lockScreen.classList.remove('active');
+        
+        trackVisit();
+        
+        // Always go to the app's home/landing view (category cards)
+        els.app.classList.add('active');
+        if (state.hasSelectedModeBefore && state.currentMode) {
+          applyMode(state.currentMode, false);
+        } else {
+          showView('home');
+        }
+        updateGlobalProgress();
 
-      // Dismiss overlay with enough delay for all view transitions to settle
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          els.transition.classList.remove('active');
-        });
-      });
+        // Dismiss overlay after view has settled
+        setTimeout(() => els.transition.classList.remove('active'), 300);
+      } catch (err) {
+        console.error('Unlock error:', err);
+        // Still make sure the app is visible
+        els.app.classList.add('active');
+        showView('home');
+        els.transition.classList.remove('active');
+      }
     }, 400);
   }
 
@@ -509,6 +513,51 @@
         buildBrowseGrid();
         break;
     }
+  }
+
+  // ─── Progress & Navigation Helpers ───
+  function updateProgress() {
+    updateGlobalProgress();
+  }
+
+  function updateGlobalProgress() {
+    let totalDiscovered = 0;
+    for (const mode of ['blue', 'red', 'yellow', 'pink']) {
+      totalDiscovered += state.discoveredNotes[mode].size;
+    }
+    if (els.globalProgress) {
+      els.globalProgress.textContent = totalDiscovered;
+    }
+    els.homeCardDiscovered.forEach(el => {
+      const mode = el.dataset.mode;
+      if (mode && state.discoveredNotes[mode]) {
+        el.textContent = state.discoveredNotes[mode].size;
+      }
+    });
+  }
+
+  function goHome() {
+    document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
+    state.view = 'home';
+    state.currentNoteIndex = -1;
+    showView('home');
+    updateGlobalProgress();
+  }
+
+  function globalShuffle() {
+    const randomIndex = Math.floor(Math.random() * allNotes.length);
+    const noteMode = allNotes[randomIndex].mode;
+    state.currentMode = noteMode;
+    document.body.classList.remove('mode-blue', 'mode-red', 'mode-yellow', 'mode-pink');
+    document.body.classList.add(`mode-${noteMode}`);
+
+    const filteredIndices = getFilteredIndices(noteMode);
+    const filteredIndex = filteredIndices.indexOf(randomIndex);
+    if (filteredIndex >= 0) {
+      showNote(filteredIndex, true);
+      spawnSparkles();
+    }
+    saveState();
   }
 
   // ─── Note Display ───
@@ -931,6 +980,12 @@
 
   // ─── Init ───
   function init() {
+    // Catch any runtime errors for debugging
+    window.__errors = [];
+    window.addEventListener('error', (e) => {
+      window.__errors.push(e.message + ' at ' + e.filename + ':' + e.lineno);
+    });
+
     loadState();
     initLock();
     initEvents();

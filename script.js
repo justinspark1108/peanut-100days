@@ -33,6 +33,28 @@
     'color-lavender', 'color-mint', 'color-peach'
   ];
 
+  // Mode-specific note colors
+  const MODE_NOTE_COLORS = {
+    blue: 'color-blue',
+    red: 'color-peach',
+    yellow: 'color-yellow',
+    pink: 'color-pink',
+  };
+
+  const MODE_EMOJIS = {
+    blue: '🩵',
+    red: '❤️',
+    yellow: '💛',
+    pink: '💗',
+  };
+
+  const MODE_LABELS = {
+    blue: 'romantic',
+    red: 'passionate',
+    yellow: 'data',
+    pink: 'picture mind',
+  };
+
   // ─── Mode hero config ───
   const modeConfig = {
     blue: {
@@ -554,7 +576,7 @@
     const filteredIndices = getFilteredIndices(noteMode);
     const filteredIndex = filteredIndices.indexOf(randomIndex);
     if (filteredIndex >= 0) {
-      showNote(filteredIndex, true);
+      showNote(filteredIndex, true, true); // true = showModeLabel
       spawnSparkles();
     }
     saveState();
@@ -562,7 +584,11 @@
 
   // ─── Note Display ───
   function getNoteColor(index) {
-    return NOTE_COLORS[index % NOTE_COLORS.length];
+    const filtered = getCurrentFilteredIndices();
+    if (filtered.length === 0) return NOTE_COLORS[0];
+    const globalIndex = filtered[Math.min(index, filtered.length - 1)];
+    const noteMode = allNotes[globalIndex] ? allNotes[globalIndex].mode : state.currentMode;
+    return MODE_NOTE_COLORS[noteMode] || NOTE_COLORS[index % NOTE_COLORS.length];
   }
 
   function getRotation(colorClass) {
@@ -578,7 +604,7 @@
     return rotations[colorClass] || '-0.5deg';
   }
 
-  function showNote(filteredIndex, animate = true) {
+  function showNote(filteredIndex, animate = true, showModeLabel = false) {
     const filtered = getCurrentFilteredIndices();
     if (filteredIndex < 0 || filteredIndex >= filtered.length) return;
 
@@ -615,7 +641,11 @@
     els.noteCard.style.setProperty('--rotation', rotation);
 
     // Show the global note number (1-100) and the filtered position
-    els.noteNumber.textContent = `#${globalIndex + 1}`;
+    if (showModeLabel && noteData.mode) {
+      els.noteNumber.innerHTML = `#${globalIndex + 1} <span class="note-mode-tag">${MODE_EMOJIS[noteData.mode]} ${MODE_LABELS[noteData.mode]}</span>`;
+    } else {
+      els.noteNumber.textContent = `#${globalIndex + 1}`;
+    }
     els.noteText.textContent = noteData.text;
     els.navCounter.textContent = `${filteredIndex + 1} / ${filtered.length}`;
 
@@ -741,7 +771,8 @@
 
     filtered.forEach((globalIndex, i) => {
       const item = document.createElement('div');
-      const colorClass = getNoteColor(i);
+      const noteMode = allNotes[globalIndex] ? allNotes[globalIndex].mode : state.currentMode;
+      const colorClass = MODE_NOTE_COLORS[noteMode] || getNoteColor(i);
       item.className = `browse-item ${colorClass}`;
       item.dataset.filteredIndex = i;
 
@@ -758,11 +789,23 @@
         mediaIndicator = '<span class="item-media-indicator">🎬</span>';
       }
 
-      item.innerHTML = `
-        ${mediaIndicator}
-        <span class="item-number">${String(globalIndex + 1).padStart(2, '0')}</span>
-        <span class="item-preview">${discoveries.has(globalIndex) ? allNotes[globalIndex].text : '???'}</span>
-      `;
+      if (discoveries.has(globalIndex)) {
+        item.innerHTML = `
+          ${mediaIndicator}
+          <span class="item-number">${String(globalIndex + 1).padStart(2, '0')}</span>
+          <span class="item-preview">${allNotes[globalIndex].text}</span>
+        `;
+      } else {
+        item.innerHTML = `
+          <div class="item-envelope">
+            <div class="item-envelope-flap"></div>
+            <div class="item-envelope-body">
+              <span class="item-envelope-heart">💌</span>
+              <span class="item-number">${String(globalIndex + 1).padStart(2, '0')}</span>
+            </div>
+          </div>
+        `;
+      }
 
       item.addEventListener('click', () => {
         showNote(i, true);
